@@ -1,5 +1,12 @@
-FROM --platform=linux/amd64 tiangolo/uvicorn-gunicorn-fastapi:python3.8
+# Use an official Python runtime as the base image
+FROM --platform=linux/amd64 python:3.8
 
-COPY ./app /app
+WORKDIR /app
 
-RUN pip install -r /app/requirements.txt
+COPY . /app
+
+RUN pip install --no-cache-dir -r ./app/requirements.txt
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
